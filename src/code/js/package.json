@@ -1,0 +1,13 @@
+{
+  "name": "test-package",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "test_server.js",
+  "dependencies": {
+    "prompt-sync": "^4.2.0",
+    "ws": "^8.15.0"
+  },
+  "devDependencies": {
+    "@types/prompt-sync": "^4.2.3"
+  }
+}
