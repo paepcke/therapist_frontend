@@ -1,13 +1,34 @@
 {
-  "name": "test-package",
-  "version": "1.0.0",
-  "type": "module",
-  "main": "test_server.js",
-  "dependencies": {
-    "prompt-sync": "^4.2.0",
-    "ws": "^8.15.0"
-  },
-  "devDependencies": {
-    "@types/prompt-sync": "^4.2.3"
-  }
+    "name": "test-package",
+    "version": "1.0.0",
+    "type": "module",
+    "dependencies": {
+        "prompt-sync": "^4.2.0",
+        "stream": "^0.0.2",
+        "websocket-stream": "^5.5.2",
+        "ws": "^8.16.0"
+    },
+    "devDependencies": {
+        "@types/prompt-sync": "^4.2.3"
+    },
+    "moduleDirectories": [
+        "<rootDir>",
+        "__tests__"
+    ],
+    "module.exports": {
+        "globals": {
+            "jest": {
+                "isolatedModules": true
+            }
+        }
+    },
+    "scripts": {
+        "test": "jest"
+    },
+    "jest": {
+        "transform": {},
+        "testMatch": [
+            "<rootDir>/__tests__/*.test.*"
+        ]
+    }
 }
