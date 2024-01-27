@@ -2,10 +2,8 @@
  * Common constants, and data structures
  */
 
-import "crypto";
-import "./constants.mjs";
-// require('crypto');
-//require('./constants')
+import crypto from "crypto";
+import "./common/constants.mjs";
 
 class Message {
 
@@ -32,14 +30,18 @@ class MsgFormat {
     }
 
 //export class MsgManager {
-export class MsgManager {	
+class MsgManager {	
 	
 	static WIRE_PREFIX      = 'th__';
 	static WIRE_SUFFIX      = '__th';
 	static MSG_UUID_CLASS   = '<MsgUUID>';
 	static MSG_ACTION_CLASS = '<MsgAction>';
+
+	/*------------------------------ 
+	 | canonicalize 
+	 ----------------*/
 	
-	static canonicalize = function(raw_msg) {
+	static canonicalize(raw_msg) {
 		
 		let id_str = raw_msg['id'];
 		let action = raw_msg['action'];
@@ -47,21 +49,35 @@ export class MsgManager {
 		
 	} // end canonicalize
 	
-	static mk_msg = function(
+	/*------------------------------ 
+	 | make_msg
+	 ----------------*/
+	
+	static make_msg(
 		action,
 		msg_id=null,
-		info=null) {
+		info=null,
+		ret_format=MsgFormat.WIRE 
+		) {
 
-		// Convert action to a MsgAction enum:
-		if (msg_id === null) {
-			msg_id = crypto.randomUUID();
-		};
+		// Invent a message id, if necessary:
+		var the_msg_id = msg_id === null ? crypto.randomUUID() : msg_id; 
+		
+		if (ret_format == MsgFormat.OBJ) {
+			let msg = 
+				{"id"     : the_msg_id, 
+			 	 "action" : action,
+			 	 "info"   : info
+				};
+			return msg; 
+		}
+		// Want a message formatted for sending to server over wire:
 		let wire_id     = `${MsgManager.WIRE_PREFIX}`+
 						  `${MsgManager.MSG_UUID_CLASS}_`+
-						  `${msg_id}`+
+						  `${the_msg_id}`+
 						  `${MsgManager.WIRE_SUFFIX}`;
 		let wire_action = `${MsgManager.WIRE_PREFIX}`+
-						  `${MsgManager.MSG_ACTION_CLASS}`+
+						  `${MsgManager.MSG_ACTION_CLASS}_`+
 						  `${action}`+
 						  `${MsgManager.WIRE_SUFFIX}`; 
 		let msg = 
@@ -73,3 +89,5 @@ export class MsgManager {
 	}
 	
 } // end MsgManager
+
+export {MsgManager, Message, MsgFormat}
