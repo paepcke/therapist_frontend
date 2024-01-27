@@ -25,9 +25,16 @@ export class TestCase {
 	 | assertEqual
 	 ----------------*/
 	 
-	 assertEqual(arg1, arg2) {
-		 if (arg1 != arg2)
-		 	throw new AssertionError(`${arg1} != ${arg2}`)
+	 /** Test equality of non-object items. 
+	  * If strictly is True, '===' is used,
+	  * else '=='
+	  */
+	 assertEqual(arg1, arg2, strictly=true) {
+		 if (strictly && (arg1 !== arg2))
+		 	throw new AssertionError(`${arg1} !== ${arg2}`)
+		 else 
+		 	if (arg1 != arg2)
+		 		throw new AssertionError(`${arg1} != ${arg2}`)
 	 }
 
 	/*------------------------------ 
@@ -54,6 +61,15 @@ export class TestCase {
 		     if (obj1[key] != obj2[key]) 
 		     	throw new AssertionError(`Object value obj1.${key} != obj2.${key}: ${obj1[key]} != ${obj2[key]}`)
 	 }		 
+
+	/*------------------------------ 
+	 | assertDefined
+	 ----------------*/
+	 
+	 assertDefined(value) {
+		 if (value === undefined)
+		 	throw new AssertionError(`Value is undefined`);
+	 }
 
 	/* ---------------- Test File Finding --------------------
 

@@ -22,3 +22,10 @@ export class AssertionError extends Error {
     this.name = "AssertionError";
   }
 }
+
+export class WireFormatError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = "WireFormatError";
+  }
+}

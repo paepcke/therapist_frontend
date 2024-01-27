@@ -64,6 +64,30 @@ class Tester extends TestCase {
 		super.assertObjsEqual(msg_w, exp_msg_w);
 	 }
 
+	/*------------------------------ 
+	 | test_canonicalization
+	 ----------------*/
+	 
+	 test_canonicalization() {
+		 
+		 const the_action = MsgAction.OK;
+		 const info = "This is my info";
+		 
+		 // Test a good wire msg:
+		 const msg_w = {"id"     : "th__<MsgUUID>_51466fad-2d4d-44bd-880c-ef7b76b450e0__th",
+		  	   		    "action" : `th__<MsgAction>_${the_action}__th`,
+		  	      		"info"   : info
+				  	    };
+		 let msg_obj = MsgManager.canonicalize(msg_w);
+
+		 // Check fields:
+		 super.assertEqual(msg_obj.id, '51466fad-2d4d-44bd-880c-ef7b76b450e0');
+		 super.assertEqual(msg_obj.action, the_action);
+		 super.assertEqual(msg_obj.info, info); 
+		 
+		 // console.log(msg_obj)
+	 }
+
 }
 
 /* --------------------- Main -------------------- */
